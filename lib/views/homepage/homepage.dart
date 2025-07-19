@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:unimar_sab_19/controllers/userdata_controller.dart';
 import 'package:unimar_sab_19/mocks/list_users.dart';
+import 'package:unimar_sab_19/models/user_response.dart';
 import 'package:unimar_sab_19/views/homepage/widgets/appcard.dart';
-import 'package:unimar_sab_19/views/homepage/widgets/appcard2.dart';
 
 class Homepage extends StatelessWidget {
   const Homepage({super.key});
@@ -19,12 +20,7 @@ class Homepage extends StatelessWidget {
               // Navigate to settings page
             },
           ),
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              // Navigate to search page
-            },
-          ),
+          IconButton(icon: const Icon(Icons.search), onPressed: () async {}),
           IconButton(
             icon: const Icon(Icons.notifications),
             onPressed: () {
@@ -34,15 +30,27 @@ class Homepage extends StatelessWidget {
         ],
         backgroundColor: Colors.blue,
       ),
-      body: Container(
-        color: const Color.fromARGB(255, 84, 164, 225),
-        child: ListView.builder(
-          itemCount: mockUsers.length,
-          itemBuilder: (context, index) {
-            final user = mockUsers[index];
-            return AppCard(userApp: user);
-          },
-        ),
+      body: FutureBuilder<List<UserResponse>>(
+        future: UserdataController().fetchUserData(),
+        builder: (context, asyncSnapshot) {
+          if (asyncSnapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (asyncSnapshot.data == null) {
+            return const Center(child: Text('No data available'));
+          }
+          return Container(
+            color: const Color.fromARGB(255, 84, 164, 225),
+            child: ListView.builder(
+              itemCount: asyncSnapshot.data!.length,
+              itemBuilder: (context, index) {
+                final user = asyncSnapshot.data![index];
+                return AppCard(userApp: user);
+              },
+            ),
+          );
+        },
       ),
     );
   }

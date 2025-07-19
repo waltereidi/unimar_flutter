@@ -24,7 +24,7 @@ Criar um componente Flutter que contenha:
 Container, Row, column e imagem.
 
 Parte 3:
-AppBar
+AppBar - opções do componente
 Pacotes
 Acessar uma API (GET)
 
