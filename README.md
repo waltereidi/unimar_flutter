@@ -4,14 +4,22 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Parte 1:
+Estrutura do projeto Flutter
+Componentes básicos
+Árvore de Widgets
 
-A few resources to get you started if this is your first Flutter project:
+Parte 2:
+Criar componentes próprios
+Lista de componentes
+Assets
+ListView
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Parte 3:
+Pacotes
+Modelos de dados
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+-->MVC
+
+
 # unimar_flutter
