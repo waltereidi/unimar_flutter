@@ -29,7 +29,7 @@ class Homepage extends StatelessWidget {
                   Row(
                     children: [
                       Icon(Icons.home, size: 50.0),
-                      Text("Samuel Santos", style: TextStyle(fontSize: 30)),
+                      Text("Walter Matsuda", style: TextStyle(fontSize: 30)),
                     ],
                   ),
                   Text(
