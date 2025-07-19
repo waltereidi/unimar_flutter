@@ -24,9 +24,14 @@ Criar um componente Flutter que contenha:
 Container, Row, column e imagem.
 
 Parte 3:
+AppBar
 Pacotes
+Acessar uma API (GET)
 
 -->MVC
+Próxima aula ->
+Navegação entre tela
+Consumir API / Criar novas telas
 
 
 # unimar_flutter

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:unimar_sab_19/mocks/list_users.dart';
+import 'package:unimar_sab_19/views/homepage/widgets/appcard.dart';
 import 'package:unimar_sab_19/views/homepage/widgets/appcard2.dart';
 
 class Homepage extends StatelessWidget {
@@ -10,6 +11,27 @@ class Homepage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Homepage'),
+        leading: const Icon(Icons.home),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              // Navigate to settings page
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              // Navigate to search page
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.notifications),
+            onPressed: () {
+              // Navigate to notifications page
+            },
+          ),
+        ],
         backgroundColor: Colors.blue,
       ),
       body: Container(
@@ -18,7 +40,7 @@ class Homepage extends StatelessWidget {
           itemCount: mockUsers.length,
           itemBuilder: (context, index) {
             final user = mockUsers[index];
-            return AppCard2(userApp: user);
+            return AppCard(userApp: user);
           },
         ),
       ),
