@@ -13,8 +13,9 @@ Parte 2:
 Criar componentes próprios
 Lista de componentes
 Modelos de dados
-Assets
+Assets/Networdk
 ListView
+MVC
 
 ---->
 Atividade prática - 45min
