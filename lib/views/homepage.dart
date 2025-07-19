@@ -22,18 +22,21 @@ class Homepage extends StatelessWidget {
               ),
               margin: const EdgeInsets.all(20.0),
               height: 250.0,
+              width: double.infinity,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Row(
+                    //Evita que o Row ocupe todo o espaço disponível
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(Icons.home, size: 50.0),
                       Text("Samuel Santos", style: TextStyle(fontSize: 30)),
                     ],
                   ),
                   Text(
-                    "Desenvolvedor Mobile Flutter / RN / Java / iOS",
+                    "Desenvolvedor Mobile Flutter",
                     style: TextStyle(fontSize: 20),
                   ),
                 ],
