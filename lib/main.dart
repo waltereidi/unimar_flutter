@@ -2,7 +2,7 @@
 // Import the Flutter Material package
 // This package provides the Material Design widgets and themes.
 import 'package:flutter/material.dart';
-import 'package:unimar_sab_19/views/homepage.dart';
+import 'package:unimar_sab_19/views/homepage/homepage.dart';
 
 void main() {
   runApp(const MyApp());
