@@ -12,9 +12,11 @@ Componentes básicos
 Parte 2:
 Criar componentes próprios
 Lista de componentes
+Assets
 ListView
 
 Parte 3:
+Pacotes
 Modelos de dados
 
 -->MVC
