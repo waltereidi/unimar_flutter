@@ -16,6 +16,12 @@ Modelos de dados
 Assets
 ListView
 
+---->
+Atividade prática - 45min
+
+Criar um componente Flutter que contenha:
+Container, Row, column e imagem.
+
 Parte 3:
 Pacotes
 
