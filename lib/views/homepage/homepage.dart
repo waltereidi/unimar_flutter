@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:unimar_sab_19/mocks/list_users.dart';
-import 'package:unimar_sab_19/views/homepage/widgets/appcard.dart';
+import 'package:unimar_sab_19/views/homepage/widgets/appcard2.dart';
 
 class Homepage extends StatelessWidget {
   const Homepage({super.key});
@@ -18,7 +18,7 @@ class Homepage extends StatelessWidget {
           itemCount: mockUsers.length,
           itemBuilder: (context, index) {
             final user = mockUsers[index];
-            return AppCard(userApp: user);
+            return AppCard2(userApp: user);
           },
         ),
       ),
