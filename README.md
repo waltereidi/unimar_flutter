@@ -30,8 +30,13 @@ Acessar uma API (GET)
 
 -->MVC
 Próxima aula ->
+Revisar GET / HTTP
 Navegação entre tela
 Consumir API / Criar novas telas
+
+Post DATA
+
+Atividade Final
 
 
 # unimar_flutter
