@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:unimar_sab_19/constants.dart';
 import 'package:unimar_sab_19/controllers/petsdata_controller.dart';
 import 'package:unimar_sab_19/models/petmodel.dart';
+import 'package:unimar_sab_19/providers/favorites_provider.dart';
 import 'package:unimar_sab_19/views/homepage/widget/petcard.dart';
 
 class Homepage extends StatelessWidget {
@@ -22,15 +25,37 @@ class Homepage extends StatelessWidget {
             ),
             itemCount: pets.length,
             itemBuilder: (context, index) {
-              return GestureDetector(
-                child: PetCard(pet: pets[index]),
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    '/detalhes',
-                    arguments: pets[index],
-                  );
-                },
+              return Stack(
+                children: [
+                  GestureDetector(
+                    child: PetCard(pet: pets[index]),
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/detalhes',
+                        arguments: pets[index],
+                      );
+                    },
+                  ),
+
+                  Positioned(
+                    top: 10,
+                    right: 10,
+                    child: IconButton(
+                      icon: Icon(
+                        size: 30,
+                        Icons.favorite_border,
+                        color: appPinkColor,
+                      ),
+                      onPressed: () {
+                        Provider.of<FavoritesProvider>(
+                          context,
+                          listen: false,
+                        ).addFavoritePet(pets[index]);
+                      },
+                    ),
+                  ),
+                ],
               );
             },
           );

@@ -19,7 +19,6 @@ class _NavigationPageState extends State<NavigationPage> {
 
   final List<Widget> _pages = [
     Homepage(),
-
     FavoritosPage(),
     PerfilPage(),
     ConfigPage(),
@@ -57,11 +56,11 @@ class _NavigationPageState extends State<NavigationPage> {
         type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
             label: 'Favorites',
           ),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: 'Settings',
