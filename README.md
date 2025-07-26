@@ -42,15 +42,15 @@ Sábado 26/07
 Revisão dos componentes => Criar uma tela de login seguindo o Figma ok
 
 Stateless / statefull - ok
+Atividade => Criar uma tela de (Cadastre-se) - ok
+
 Navegação entre telas
 Criar a tela home para a aplicação - Pet Adopt
 
 Navigation Bar
-Atividade => Criar uma tela de (Cadastre-se) - ok
 
 Conectar na API (MVC) - login / load dados / Salvar Pet
-
-
+====>
 Persistência local - lista favoritos (shared_preferences)
 Aplicação final
 

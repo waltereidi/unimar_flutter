@@ -11,7 +11,7 @@ class Vinicius extends StatelessWidget {
       margin: const EdgeInsets.all(5.0),
       decoration: BoxDecoration(
         color: const Color.fromARGB(255, 255, 255, 255),
-        borderRadius: BorderRadius.circular(12)
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         children: [
@@ -45,12 +45,14 @@ class Vinicius extends StatelessWidget {
                       vertical: 8,
                     ),
                   ),
-                  child: Container(
+                  child: SizedBox(
                     width: 80,
-                    child: Row(children: [
-                      Icon(Icons.add_shopping_cart, size: 18),
-                      const Text('Adicionar')
-                    ],)
+                    child: Row(
+                      children: [
+                        Icon(Icons.add_shopping_cart, size: 18),
+                        const Text('Adicionar'),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -61,4 +63,3 @@ class Vinicius extends StatelessWidget {
     );
   }
 }
-

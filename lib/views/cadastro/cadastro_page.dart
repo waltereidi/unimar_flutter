@@ -15,7 +15,6 @@ class _CadastroPageState extends State<CadastroPage> {
   void initState() {
     super.initState();
 
-    print("LoginPage initialized");
     // You can add any initialization logic here if needed
   }
 

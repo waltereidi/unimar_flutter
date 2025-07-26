@@ -29,11 +29,11 @@ class AppCard extends StatelessWidget {
             children: [
               Image.asset('assets/images/0.jpg', width: 100, height: 100),
 
-              Text(userApp.gender ?? '', style: TextStyle(fontSize: 30)),
+              Text(userApp.gender , style: TextStyle(fontSize: 30)),
             ],
           ), //
-          Text(userApp.gender ?? '', style: TextStyle(fontSize: 20)),
-          Text(userApp.email ?? '', style: TextStyle(fontSize: 14)),
+          Text(userApp.gender , style: TextStyle(fontSize: 20)),
+          Text(userApp.email , style: TextStyle(fontSize: 14)),
           //Image.network(userApp.imageUrl ?? '', width: 50, height: 50),
         ],
       ),

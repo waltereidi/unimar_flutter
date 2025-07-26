@@ -1,65 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:unimar_sab_19/controllers/userdata_controller.dart';
-import 'package:unimar_sab_19/mocks/list_users.dart';
-import 'package:unimar_sab_19/models/user_response.dart';
-import 'package:unimar_sab_19/views/homepage/widgets/appcard.dart';
+import 'package:unimar_sab_19/controllers/petsdata_controller.dart';
+import 'package:unimar_sab_19/models/petmodel.dart';
+import 'package:unimar_sab_19/views/homepage/widget/petcard.dart';
 
 class Homepage extends StatelessWidget {
   const Homepage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Homepage'),
-        leading: const Icon(Icons.home),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              // Navigate to settings page
-            },
-          ),
-          IconButton(icon: const Icon(Icons.search), onPressed: () async {}),
-          IconButton(
-            icon: const Icon(Icons.notifications),
-            onPressed: () {
-              // Navigate to notifications page
-            },
-          ),
-        ],
-        backgroundColor: Colors.blue,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-        ],
-      ),
-      body: FutureBuilder<List<UserResponse>>(
-        future: UserdataController().fetchUserData(),
+      body: FutureBuilder<Pets>(
+        future: PetsdataController().getAllPets(),
         builder: (context, asyncSnapshot) {
           if (asyncSnapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          if (asyncSnapshot.data == null) {
-            return const Center(child: Text('No data available'));
-          }
-          return Container(
-            color: const Color.fromARGB(255, 84, 164, 225),
-            child: ListView.builder(
-              itemCount: asyncSnapshot.data!.length,
-              itemBuilder: (context, index) {
-                final user = asyncSnapshot.data![index];
-                return AppCard(userApp: user);
-              },
+          final List<Pet> pets = asyncSnapshot.data?.pets ?? [];
+          return GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
             ),
+            itemCount: pets.length,
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                child: PetCard(pet: pets[index]),
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/detalhes',
+                    arguments: pets[index],
+                  );
+                },
+              );
+            },
           );
         },
       ),

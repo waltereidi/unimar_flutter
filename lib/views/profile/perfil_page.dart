@@ -6,7 +6,7 @@ class PerfilPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Perfil")),
+      backgroundColor: Color.fromARGB(255, 76, 13, 19),
       body: Center(child: Text("Conteúdo do Perfil")),
     );
   }
