@@ -38,5 +38,23 @@ Post DATA
 
 Atividade Final
 
+Sábado 26/07
+Revisão dos componentes => Criar uma tela de login seguindo o Figma ok
+
+Stateless / statefull
+
+Navegação
+
+Atividade => Criar uma tela de (Cadastre-se) 
+
+Conectar na API (MVC) - login / load dados / Salvar Pet
+
+
+Persistência local - lista favoritos
+Aplicação final
+
+
+
+
 
 # unimar_flutter
