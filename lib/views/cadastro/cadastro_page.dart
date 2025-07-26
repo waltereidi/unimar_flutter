@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:unimar_sab_19/approutes.dart';
-import 'package:unimar_sab_19/views/cadastro/cadastro_page.dart';
-import 'package:unimar_sab_19/views/homepage/homepage.dart';
 import 'package:unimar_sab_19/views/login/utils/functions.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class CadastroPage extends StatefulWidget {
+  const CadastroPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<CadastroPage> createState() => _CadastroPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _CadastroPageState extends State<CadastroPage> {
   bool _obscureText = true;
 
   @override
@@ -50,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 Text(
-                  "Login",
+                  "Cadastro",
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -100,22 +97,13 @@ class _LoginPageState extends State<LoginPage> {
                     labelText: "Senha",
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {},
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [Text("Esqueceu sua senha?")],
-                  ),
-                ),
               ],
             ),
 
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, Approutes.home);
-                },
+                onPressed: () {},
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFFFF87AB),
                   shape: RoundedRectangleBorder(
@@ -123,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 child: Text(
-                  "Login",
+                  "Cadastrar",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
@@ -132,27 +120,16 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-            Text("OU"),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset("assets/images/google.png", width: 30, height: 30),
-                Image.asset(
-                  "assets/images/facebook.png",
-                  width: 30,
-                  height: 30,
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Não tem uma conta?"),
+                Text("Já tem uma conta?"),
                 TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, Approutes.cadastro);
+                    Navigator.pop(context);
                   },
-                  child: Text("Cadastre-se"),
+                  child: Text("Login"),
                 ),
               ],
             ),

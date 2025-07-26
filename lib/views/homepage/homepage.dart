@@ -30,6 +30,17 @@ class Homepage extends StatelessWidget {
         ],
         backgroundColor: Colors.blue,
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
+      ),
       body: FutureBuilder<List<UserResponse>>(
         future: UserdataController().fetchUserData(),
         builder: (context, asyncSnapshot) {
