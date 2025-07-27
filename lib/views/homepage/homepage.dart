@@ -41,17 +41,19 @@ class Homepage extends StatelessWidget {
                   Positioned(
                     top: 10,
                     right: 10,
-                    child: IconButton(
-                      icon: Icon(
-                        size: 30,
-                        Icons.favorite_border,
-                        color: appPinkColor,
-                      ),
-                      onPressed: () {
-                        Provider.of<FavoritesProvider>(
-                          context,
-                          listen: false,
-                        ).addFavoritePet(pets[index]);
+                    child: Consumer<FavoritesProvider>(
+                      builder: (context, favoritesProvider, child) {
+                        final isFavorite = favoritesProvider.isFavorite(pets[index]);
+                        return IconButton(
+                          icon: Icon(
+                            size: 30,
+                            isFavorite ? Icons.favorite : Icons.favorite_border,
+                            color: isFavorite ? Colors.red : appPinkColor,
+                          ),
+                          onPressed: () {
+                            favoritesProvider.toggleFavorite(pets[index]);
+                          },
+                        );
                       },
                     ),
                   ),
