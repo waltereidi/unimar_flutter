@@ -56,7 +56,6 @@ class Pet {
     required this.available,
     required this.createdAt,
     required this.updatedAt,
-   
   });
 
   factory Pet.fromJson(Map<String, dynamic> json) => Pet(
@@ -75,7 +74,6 @@ class Pet {
     available: json["available"],
     createdAt: DateTime.parse(json["createdAt"]),
     updatedAt: DateTime.parse(json["updatedAt"]),
-  
   );
 
   Map<String, dynamic> toJson() => {
@@ -94,6 +92,5 @@ class Pet {
     "available": available,
     "createdAt": createdAt.toIso8601String(),
     "updatedAt": updatedAt.toIso8601String(),
-  
   };
 }
