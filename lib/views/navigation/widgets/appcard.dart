@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:unimar_sab_19/models/user_app.dart';
+import 'package:unimar_sab_19/models/user_response.dart';
 
 class AppCard extends StatelessWidget {
   const AppCard({super.key, required this.userApp});
-  final UserApp userApp;
+  final UserResponse userApp;
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +29,12 @@ class AppCard extends StatelessWidget {
             children: [
               Image.asset('assets/images/0.jpg', width: 100, height: 100),
 
-              Text(userApp.name ?? '', style: TextStyle(fontSize: 30)),
+              Text(userApp.gender , style: TextStyle(fontSize: 30)),
             ],
           ), //
-          Text(userApp.role ?? '', style: TextStyle(fontSize: 20)),
-          Text(userApp.email ?? '', style: TextStyle(fontSize: 14)),
-          Image.network(userApp.imageUrl ?? '', width: 50, height: 50),
+          Text(userApp.gender , style: TextStyle(fontSize: 20)),
+          Text(userApp.email , style: TextStyle(fontSize: 14)),
+          //Image.network(userApp.imageUrl ?? '', width: 50, height: 50),
         ],
       ),
     );
