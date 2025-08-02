@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'dart:convert';
 
-class HttpNative {
+import 'package:unimar_sab_19/interfaces/httpNativeInterface.dart';
+
+class HttpNative implements HttpNativeInterface {
   final HttpClient httpClient;
 
   HttpNative({HttpClient? client}) : httpClient = client ?? HttpClient();

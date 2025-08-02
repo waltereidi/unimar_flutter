@@ -1,9 +1,12 @@
+import 'package:unimar_sab_19/valueObject/emailAddress.dart';
+import 'package:unimar_sab_19/valueObject/password.dart';
+
 class CadastroPetAdoptRequest {
   final String name;
-  final String email;
+  final EmailAddress email;
   final String phone;
-  final String password;
-  final String confirmPassword;
+  final Password password;
+  final Password confirmPassword;
 
   CadastroPetAdoptRequest({
     required this.name,
