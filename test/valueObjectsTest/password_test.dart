@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:unimar_sab_19/valueObject/senha.dart';
+import 'package:unimar_sab_19/valueObject/password.dart';
 
 void main() {
   group('Password', () {

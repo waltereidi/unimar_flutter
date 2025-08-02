@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:unimar_sab_19/valueObject/email.dart';
+import 'package:unimar_sab_19/valueObject/emailAddress.dart';
 
 void main() {
   group('EmailAddress', () {

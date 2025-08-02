@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:unimar_sab_19/views/login/utils/functions.dart';
+import 'package:unimar_sab_19/valueObject/emailAddress.dart';
+import 'package:unimar_sab_19/valueObject/password.dart';
 
 class CadastroPage extends StatefulWidget {
   const CadastroPage({super.key});
@@ -10,12 +11,42 @@ class CadastroPage extends StatefulWidget {
 
 class _CadastroPageState extends State<CadastroPage> {
   bool _obscureText = true;
+  String? _emailError;
+  String? _passwordError;
 
+  final _controllerEmail = TextEditingController.fromValue(
+    TextEditingValue(text: ""),
+  );
+  final _controllerSenha = TextEditingController.fromValue(
+    TextEditingValue(text: ""),
+  );
   @override
   void initState() {
     super.initState();
-
-    // You can add any initialization logic here if needed
+    _controllerSenha.addListener(() {
+      final text = _controllerSenha.text;
+      if (text.isEmpty || Password.isValidPassword(text)) {
+        setState(() {
+          _passwordError = null;
+        });
+      } else {
+        setState(() {
+          _passwordError = 'A senha deve ter no mínimo 8 caracteres';
+        });
+      }
+    });
+    _controllerEmail.addListener(() {
+      final text = _controllerEmail.text;
+      if (text.isEmpty || EmailAddress.isValidEmail(text)) {
+        setState(() {
+          _emailError = null;
+        });
+      } else {
+        setState(() {
+          _emailError = 'Email inválido';
+        });
+      }
+    });
   }
 
   void _changeObscureText() {
@@ -63,18 +94,37 @@ class _CadastroPageState extends State<CadastroPage> {
               children: [
                 Text("Email"),
                 TextField(
-                  decoration: inputDecoration(
-                    labelText: "Email",
+                  controller: _controllerEmail,
+                  decoration: InputDecoration(
                     prefixIcon: Icon(Icons.email),
+                    suffixIcon: IconButton(
+                      onPressed: _changeObscureText,
+                      icon: _obscureText
+                          ? Icon(Icons.visibility_off)
+                          : Icon(Icons.visibility),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFFFF87AB)),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
                     hintText: "Digite seu email",
+                    labelText: "Email",
+                    errorText: _emailError,
                   ),
                 ),
                 Text("Senha"),
                 TextField(
                   obscureText: _obscureText, // This hides the password input
+                  controller: _controllerSenha,
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.lock),
-
                     suffixIcon: IconButton(
                       onPressed: _changeObscureText,
                       icon: _obscureText
@@ -94,6 +144,7 @@ class _CadastroPageState extends State<CadastroPage> {
                     ),
                     hintText: "Digite sua senha",
                     labelText: "Senha",
+                    errorText: _passwordError,
                   ),
                 ),
               ],

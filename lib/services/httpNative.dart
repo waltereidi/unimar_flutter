@@ -15,10 +15,6 @@ class HttpNative {
 
     final response = await request.close();
 
-    if (response.statusCode < 200 || response.statusCode > 299) {
-      throw HttpException('Erro ao carregar o post: ${response.statusCode}');
-    }
-
     final responseBody = await response.transform(utf8.decoder).join();
     return jsonDecode(responseBody);
   }

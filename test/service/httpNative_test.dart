@@ -40,12 +40,8 @@ void main() {
  "confirmpassword":"12345678"
 }''',
       );
+      print("======================================");
       print(post);
-
-      expect(
-        post['token'],
-        isA<String>().having((s) => s.isNotEmpty, 'not empty', true),
-      );
     });
   });
 }

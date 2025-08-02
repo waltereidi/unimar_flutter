@@ -8,13 +8,13 @@ class EmailAddress extends Equatable {
 
   /// Fábrica com validação
   factory EmailAddress(String input) {
-    if (!_isValidEmail(input)) {
+    if (!isValidEmail(input)) {
       throw FormatException("Email inválido: $input");
     }
     return EmailAddress._(input);
   }
 
-  static bool _isValidEmail(String email) {
+  static bool isValidEmail(String email) {
     final emailRegex = RegExp(
       r"""^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$""",
     );

@@ -8,13 +8,15 @@ class Password extends Equatable {
 
   /// Fábrica com validação
   factory Password(String input) {
-    if (!_isValidPassword(input)) {
-      throw FormatException("A senha deve ter no mínimo 8 caracteres.");
+    if (Password.isValidPassword(input)) {
+      final passwordVO = Password(input);
+      // use o passwordVO conforme necessário
     }
+
     return Password._(input);
   }
 
-  static bool _isValidPassword(String password) {
+  static bool isValidPassword(String password) {
     return password.trim().length >= 8;
   }
 
