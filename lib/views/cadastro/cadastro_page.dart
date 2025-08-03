@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:unimar_sab_19/services/apiService.dart';
 import 'package:unimar_sab_19/valueObject/emailAddress.dart';
 import 'package:unimar_sab_19/valueObject/password.dart';
 
@@ -13,6 +14,8 @@ class _CadastroPageState extends State<CadastroPage> {
   bool _obscureText = true;
   String? _emailError;
   String? _passwordError;
+  String? _confirmPasswordError;
+  String? _phoneError;
 
   final _controllerEmail = TextEditingController.fromValue(
     TextEditingValue(text: ""),
@@ -20,6 +23,16 @@ class _CadastroPageState extends State<CadastroPage> {
   final _controllerSenha = TextEditingController.fromValue(
     TextEditingValue(text: ""),
   );
+  final _controllerConfirmPassword = TextEditingController.fromValue(
+    TextEditingValue(text: ""),
+  );
+  final _controllerPhone = TextEditingController.fromValue(
+    TextEditingValue(text: ""),
+  );
+  final _controllerNome = TextEditingController.fromValue(
+    TextEditingValue(text: ""),
+  );
+
   @override
   void initState() {
     super.initState();
@@ -44,6 +57,20 @@ class _CadastroPageState extends State<CadastroPage> {
       } else {
         setState(() {
           _emailError = 'Email inválido';
+        });
+      }
+    });
+
+    _controllerConfirmPassword.addListener(() {
+      final text = _controllerConfirmPassword.text;
+
+      if (text.isEmpty || Password.isValidPassword(text)) {
+        setState(() {
+          _confirmPasswordError = null;
+        });
+      } else {
+        setState(() {
+          _confirmPasswordError = 'A senha deve ter no mínimo 8 caracteres';
         });
       }
     });
@@ -97,6 +124,7 @@ class _CadastroPageState extends State<CadastroPage> {
                   children: [
                     Text("Nome"),
                     TextField(
+                      controller: _controllerNome,
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.assignment_ind_rounded),
 
@@ -117,6 +145,7 @@ class _CadastroPageState extends State<CadastroPage> {
                     ),
                     Text("Telefone"),
                     TextField(
+                      controller: _controllerPhone,
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.contact_phone),
                         enabledBorder: OutlineInputBorder(
@@ -220,7 +249,9 @@ class _CadastroPageState extends State<CadastroPage> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      sendCadastroRequest();
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFFFF87AB),
                       shape: RoundedRectangleBorder(
@@ -256,5 +287,18 @@ class _CadastroPageState extends State<CadastroPage> {
         ),
       ),
     );
+  }
+
+  void sendCadastroRequest() {
+    // Implement the logic to send the registration request
+    // This could involve validating the inputs and making an API call
+    // For now, we will just print the values to the console
+    print("Nome: ${_controllerNome.text}");
+    print("Telefone: ${_controllerPhone.text}");
+    print("Email: ${_controllerEmail.text}");
+    print("Senha: ${_controllerSenha.text}");
+    print("Confirmar Senha: ${_controllerConfirmPassword.text}");
+
+    var service = ApiService.getService();
   }
 }
