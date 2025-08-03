@@ -52,7 +52,7 @@ Navigation Bar
 Conectar na API (MVC) - login / load dados / Salvar Pet
 ====>
 Persistência local - lista favoritos (shared_preferences)
-Aplicação final
+Aplicação final 
 
 
 
