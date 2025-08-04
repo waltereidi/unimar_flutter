@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:unimar_sab_19/valueObject/emailAddress.dart';
 import 'package:unimar_sab_19/valueObject/password.dart';
 
@@ -28,14 +30,17 @@ class CadastroPetAdoptRequest {
   }
 
   // Converter para JSON
-  Map<String, dynamic> toJson() {
-    return {
+
+  String toJsonString() {
+    final data = {
       'name': name,
-      'email': email,
+      'email': email.value,
       'phone': phone,
-      'password': password,
-      'confirmpassword': confirmPassword,
+      'password': password.value,
+      'confirmpassword': confirmPassword.value,
     };
+
+    return jsonEncode(data);
   }
 
   // Override toString para debug

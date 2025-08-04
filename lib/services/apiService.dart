@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:unimar_sab_19/interfaces/httpNativeInterface.dart';
+import 'package:unimar_sab_19/models/cadastroPetAdoptRequest.dart';
 import 'package:unimar_sab_19/services/httpNative.dart';
 import 'package:unimar_sab_19/valueObject/emailAddress.dart';
 import 'package:unimar_sab_19/valueObject/password.dart';
@@ -14,5 +15,27 @@ class ApiService {
     var client = HttpClient();
     var httpService = HttpNative(client: client);
     return ApiService._(httpService);
+  }
+
+  Future<Map<String, dynamic>> sendCadastro(
+    String name,
+    EmailAddress email,
+    String phone,
+    Password password,
+    Password confirmPassword,
+  ) async {
+    String url = "https://petadopt.onrender.com/user/register";
+
+    CadastroPetAdoptRequest request = CadastroPetAdoptRequest(
+      name: name,
+      email: email,
+      phone: phone,
+      password: password,
+      confirmPassword: confirmPassword,
+    );
+
+    String body = request.toJsonString();
+
+    return await httpService.fetchPost(url, body);
   }
 }

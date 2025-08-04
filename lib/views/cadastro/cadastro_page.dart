@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:unimar_sab_19/models/cadastroPetAdoptResponse.dart';
 import 'package:unimar_sab_19/services/apiService.dart';
 import 'package:unimar_sab_19/valueObject/emailAddress.dart';
 import 'package:unimar_sab_19/valueObject/password.dart';
@@ -15,7 +16,6 @@ class _CadastroPageState extends State<CadastroPage> {
   String? _emailError;
   String? _passwordError;
   String? _confirmPasswordError;
-  String? _phoneError;
 
   final _controllerEmail = TextEditingController.fromValue(
     TextEditingValue(text: ""),
@@ -289,16 +289,44 @@ class _CadastroPageState extends State<CadastroPage> {
     );
   }
 
-  void sendCadastroRequest() {
-    // Implement the logic to send the registration request
-    // This could involve validating the inputs and making an API call
-    // For now, we will just print the values to the console
-    print("Nome: ${_controllerNome.text}");
-    print("Telefone: ${_controllerPhone.text}");
-    print("Email: ${_controllerEmail.text}");
-    print("Senha: ${_controllerSenha.text}");
-    print("Confirmar Senha: ${_controllerConfirmPassword.text}");
+  void sendCadastroRequest() async {
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text('Solicitação de cadastro enviada!')));
 
     var service = ApiService.getService();
+
+    var result = service.sendCadastro(
+      _controllerNome.text,
+      EmailAddress(_controllerEmail.text),
+      _controllerPhone.text,
+      Password(_controllerSenha.text),
+      Password(_controllerConfirmPassword.text),
+    );
+    print("======================================");
+    print(result);
+
+    result
+        .then((response) {
+          var dto = CadastroPetAdoptResponse.fromJson(response);
+
+          if (dto.token != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Cadastro realizado com sucesso!')),
+            );
+            Navigator.pop(context);
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Erro ao cadastrar: ${response['message']}'),
+              ),
+            );
+          }
+        })
+        .catchError((error) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Erro de conexão: $error')));
+        });
   }
 }
