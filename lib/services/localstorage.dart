@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 
-late final ValueNotifier<int> notifier;
+late final ValueNotifier<String> token;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initLocalStorage();
 
-  notifier = ValueNotifier(int.parse(localStorage.getItem('counter') ?? '0'));
-  notifier.addListener(() {
-    localStorage.setItem('counter', notifier.value.toString());
+  token = ValueNotifier(localStorage.getItem('token') ?? 'no token');
+
+  token.addListener(() {
+    localStorage.setItem('token', token.value.toString());
   });
 
   runApp(const MyApp());
@@ -23,8 +24,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         body: Center(
-          child: ValueListenableBuilder<int>(
-            valueListenable: notifier,
+          child: ValueListenableBuilder<String>(
+            valueListenable: token,
             builder: (context, value, child) {
               return Text('Pressed $value times');
             },
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            notifier.value++;
+            token;
           },
           child: const Icon(Icons.add),
         ),

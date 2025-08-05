@@ -23,9 +23,9 @@ class ApiService {
     String phone,
     Password password,
     Password confirmPassword,
-  ) async {
+  ) {
     String url = "https://petadopt.onrender.com/user/register";
-
+    print("body: $name");
     CadastroPetAdoptRequest request = CadastroPetAdoptRequest(
       name: name,
       email: email,
@@ -35,7 +35,7 @@ class ApiService {
     );
 
     String body = request.toJsonString();
-
-    return await httpService.fetchPost(url, body);
+    print("body: $body");
+    return httpService.fetchPost(url, body);
   }
 }

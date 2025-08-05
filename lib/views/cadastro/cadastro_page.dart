@@ -70,7 +70,8 @@ class _CadastroPageState extends State<CadastroPage> {
         });
       } else {
         setState(() {
-          _confirmPasswordError = 'A senha deve ter no mínimo 8 caracteres';
+          _confirmPasswordError =
+              'A confirmação da senha deve ter no mínimo 8 caracteres';
         });
       }
     });
@@ -218,7 +219,7 @@ class _CadastroPageState extends State<CadastroPage> {
                     TextField(
                       obscureText:
                           _obscureText, // This hides the password input
-                      controller: _controllerSenha,
+                      controller: _controllerConfirmPassword,
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.lock),
                         suffixIcon: IconButton(
@@ -289,25 +290,28 @@ class _CadastroPageState extends State<CadastroPage> {
     );
   }
 
-  void sendCadastroRequest() async {
+  void sendCadastroRequest() {
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text('Solicitação de cadastro enviada!')));
 
     var service = ApiService.getService();
 
-    var result = service.sendCadastro(
-      _controllerNome.text,
-      EmailAddress(_controllerEmail.text),
-      _controllerPhone.text,
-      Password(_controllerSenha.text),
-      Password(_controllerConfirmPassword.text),
-    );
-    print("======================================");
-    print(result);
-
-    result
+    service
+        .sendCadastro(
+          _controllerNome.text,
+          EmailAddress(_controllerEmail.text),
+          _controllerPhone.text,
+          Password(_controllerSenha.text),
+          Password(_controllerConfirmPassword.text),
+        )
         .then((response) {
+          print("Response: $response");
+
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('enviado!')));
+
           var dto = CadastroPetAdoptResponse.fromJson(response);
 
           if (dto.token != null) {

@@ -8,11 +8,9 @@ class Password extends Equatable {
 
   /// Fábrica com validação
   factory Password(String input) {
-    if (Password.isValidPassword(input)) {
-      final passwordVO = Password(input);
-      // use o passwordVO conforme necessário
+    if (!Password.isValidPassword(input)) {
+      throw ArgumentError('A senha deve ter no mínimo 8 caracteres');
     }
-
     return Password._(input);
   }
 
@@ -22,7 +20,4 @@ class Password extends Equatable {
 
   @override
   List<Object?> get props => [value];
-
-  @override
-  String toString() => value;
 }
