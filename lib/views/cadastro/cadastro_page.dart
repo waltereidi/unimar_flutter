@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:unimar_sab_19/models/cadastroPetAdoptResponse.dart';
 import 'package:unimar_sab_19/services/apiService.dart';
+import 'package:unimar_sab_19/services/localStorageService.dart';
 import 'package:unimar_sab_19/valueObject/emailAddress.dart';
 import 'package:unimar_sab_19/valueObject/password.dart';
 
@@ -290,47 +291,43 @@ class _CadastroPageState extends State<CadastroPage> {
     );
   }
 
-  void sendCadastroRequest() {
+  void sendCadastroRequest() async {
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text('Solicitação de cadastro enviada!')));
 
     var service = ApiService.getService();
 
-    service
-        .sendCadastro(
-          _controllerNome.text,
-          EmailAddress(_controllerEmail.text),
-          _controllerPhone.text,
-          Password(_controllerSenha.text),
-          Password(_controllerConfirmPassword.text),
-        )
-        .then((response) {
-          print("Response: $response");
+    var response = await service.sendCadastro(
+      _controllerNome.text,
+      EmailAddress(_controllerEmail.text),
+      _controllerPhone.text,
+      Password(_controllerSenha.text),
+      Password(_controllerConfirmPassword.text),
+    );
 
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text('enviado!')));
+    print("Response: $response");
 
-          var dto = CadastroPetAdoptResponse.fromJson(response);
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text('enviado!')));
 
-          if (dto.token != null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Cadastro realizado com sucesso!')),
-            );
-            Navigator.pop(context);
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('Erro ao cadastrar: ${response['message']}'),
-              ),
-            );
-          }
-        })
-        .catchError((error) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text('Erro de conexão: $error')));
-        });
+    var dto = CadastroPetAdoptResponse.fromJson(response);
+
+    if (dto.token != null) {
+      LocalStorageService storage = LocalStorageService();
+      storage.saveData('token', dto.token);
+      storage.saveData('user', _controllerEmail.text);
+      storage.saveData('password', _controllerSenha.text);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Cadastro realizado com sucesso!')),
+      );
+      Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erro ao cadastrar: ${response['message']}')),
+      );
+    }
   }
 }

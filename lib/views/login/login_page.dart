@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:unimar_sab_19/approutes.dart';
+import 'package:unimar_sab_19/services/localStorageService.dart';
 
 import 'package:unimar_sab_19/views/login/utils/functions.dart';
 
@@ -12,6 +13,13 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool _obscureText = true;
+
+  final _controllerEmail = TextEditingController.fromValue(
+    TextEditingValue(text: ""),
+  );
+  final _controllerSenha = TextEditingController.fromValue(
+    TextEditingValue(text: ""),
+  );
 
   @override
   void initState() {
@@ -70,9 +78,11 @@ class _LoginPageState extends State<LoginPage> {
                     prefixIcon: Icon(Icons.email),
                     hintText: "Digite seu email",
                   ),
+                  controller: _controllerEmail,
                 ),
                 Text("Senha"),
                 TextField(
+                  controller: _controllerSenha,
                   obscureText: _obscureText, // This hides the password input
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.lock),
@@ -111,8 +121,22 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, Approutes.home);
+                onPressed: () async {
+                  var storage = LocalStorageService();
+                  var user = await storage.loadData('user');
+                  var password = await storage.loadData('password');
+
+                  if (user == _controllerEmail.text &&
+                      password == _controllerSenha.text) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Login realizado com sucesso!')),
+                    );
+                    Navigator.pushReplacementNamed(context, Approutes.home);
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Login ou senha inválidos!')),
+                    );
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFFFF87AB),
