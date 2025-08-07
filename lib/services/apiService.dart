@@ -38,4 +38,17 @@ class ApiService {
     print("body: $body");
     return httpService.fetchPost(url, body);
   }
+
+  Future<Map<String, dynamic>> login(String email, String password) {
+    String url = "https://petadopt.onrender.com/user/login";
+
+    CadastroPetAdoptRequest request = CadastroPetAdoptRequest(
+      phone: '',
+      password: password,
+    );
+
+    String body = request.toJsonString();
+    print("body: $body");
+    return httpService.fetchPost(url, body);
+  }
 }

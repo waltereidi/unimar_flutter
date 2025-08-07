@@ -125,6 +125,8 @@ class _LoginPageState extends State<LoginPage> {
                   var storage = LocalStorageService();
                   var user = await storage.loadData('user');
                   var password = await storage.loadData('password');
+                  var token = await storage.loadData('token');
+                  print(token);
 
                   if (user == _controllerEmail.text &&
                       password == _controllerSenha.text) {
