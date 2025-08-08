@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:unimar_sab_19/interfaces/httpNativeInterface.dart';
 import 'package:unimar_sab_19/models/cadastroPetAdoptRequest.dart';
+import 'package:unimar_sab_19/models/loginPetAdoptRequest.dart';
 import 'package:unimar_sab_19/services/httpNative.dart';
 import 'package:unimar_sab_19/valueObject/emailAddress.dart';
 import 'package:unimar_sab_19/valueObject/password.dart';
@@ -25,7 +26,6 @@ class ApiService {
     Password confirmPassword,
   ) {
     String url = "https://petadopt.onrender.com/user/register";
-    print("body: $name");
     CadastroPetAdoptRequest request = CadastroPetAdoptRequest(
       name: name,
       email: email,
@@ -35,20 +35,19 @@ class ApiService {
     );
 
     String body = request.toJsonString();
-    print("body: $body");
     return httpService.fetchPost(url, body);
   }
 
   Future<Map<String, dynamic>> login(String email, String password) {
     String url = "https://petadopt.onrender.com/user/login";
 
-    CadastroPetAdoptRequest request = CadastroPetAdoptRequest(
-      phone: '',
-      password: password,
+    LoginPetAdoptRequest request = LoginPetAdoptRequest(
+      email: EmailAddress(email),
+      password: Password(password),
     );
 
     String body = request.toJsonString();
-    print("body: $body");
+
     return httpService.fetchPost(url, body);
   }
 }
