@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:unimar_sab_19/approutes.dart';
+import 'package:unimar_sab_19/models/loginPetAdoptResponse.dart';
+import 'package:unimar_sab_19/services/apiService.dart';
 import 'package:unimar_sab_19/services/localStorageService.dart';
 
 import 'package:unimar_sab_19/views/login/utils/functions.dart';
@@ -125,8 +127,6 @@ class _LoginPageState extends State<LoginPage> {
                   var storage = LocalStorageService();
                   var user = await storage.loadData('user');
                   var password = await storage.loadData('password');
-                  var token = await storage.loadData('token');
-                  print(token);
 
                   if (user == _controllerEmail.text &&
                       password == _controllerSenha.text) {
@@ -174,7 +174,11 @@ class _LoginPageState extends State<LoginPage> {
                 Text("Não tem uma conta?"),
                 TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, Approutes.cadastro);
+                    sendLoginRequest(
+                      context,
+                      _controllerEmail.text,
+                      _controllerSenha.text,
+                    );
                   },
                   child: Text("Cadastre-se"),
                 ),
@@ -184,5 +188,40 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  void sendLoginRequest(
+    BuildContext context,
+    String email,
+    String senha,
+  ) async {
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text('Solicitação de login enviada!')));
+
+    var service = ApiService.getService();
+
+    var response = await service.sendLogin(email, senha);
+
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text('enviado!')));
+
+    var dto = LoginPetAdoptResponse.fromJson(response);
+
+    if (dto.token != null) {
+      LocalStorageService storage = LocalStorageService();
+      storage.saveData('token', dto.token ?? '');
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Login realizado com sucesso!')));
+      Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Login ou senha inválidos!')));
+    }
+    Navigator.pushNamed(context, Approutes.cadastro);
   }
 }
