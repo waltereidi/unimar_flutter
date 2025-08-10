@@ -323,6 +323,7 @@ class _CadastroPageState extends State<CadastroPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Cadastro realizado com sucesso!')),
       );
+
       Navigator.pop(context);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

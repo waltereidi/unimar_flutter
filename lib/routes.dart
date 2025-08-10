@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:unimar_sab_19/approutes.dart';
+import 'package:unimar_sab_19/views/adicionarPet/AdicionarPetPage.dart';
 import 'package:unimar_sab_19/views/cadastro/cadastro_page.dart';
 import 'package:unimar_sab_19/views/config/config_page.dart';
 import 'package:unimar_sab_19/views/detalhes/detalhes_page.dart';
@@ -16,4 +17,5 @@ Map<String, WidgetBuilder> routes = {
   Approutes.perfil: (context) => PerfilPage(),
   Approutes.favoritos: (context) => FavoritosPage(),
   Approutes.configuracoes: (context) => ConfigPage(),
+  Approutes.adicionarPet: (context) => AdicionarPetPage(),
 };

@@ -216,12 +216,11 @@ class _LoginPageState extends State<LoginPage> {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Login realizado com sucesso!')));
-      Navigator.pop(context);
+      Navigator.pushReplacementNamed(context, Approutes.home);
     } else {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Login ou senha inválidos!')));
     }
-    Navigator.pushNamed(context, Approutes.cadastro);
   }
 }

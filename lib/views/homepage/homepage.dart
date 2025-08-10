@@ -18,11 +18,25 @@ class Homepage extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
 
-          final List<Pet> pets = asyncSnapshot.data?.pets ?? [];
+          if (asyncSnapshot.hasError) {
+            return Center(
+              child: Text('Erro ao carregar pets: ${asyncSnapshot.error}'),
+            );
+          }
+
+          final pets = asyncSnapshot.data?.pets ?? [];
+          if (pets.isEmpty) {
+            return const Center(child: Text('Nenhum pet encontrado'));
+          }
+
           return GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 250,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10,
+              childAspectRatio: 0.8,
             ),
+            padding: const EdgeInsets.all(10),
             itemCount: pets.length,
             itemBuilder: (context, index) {
               return Stack(
@@ -37,17 +51,18 @@ class Homepage extends StatelessWidget {
                       );
                     },
                   ),
-
                   Positioned(
                     top: 10,
                     right: 10,
                     child: Consumer<FavoritesProvider>(
                       builder: (context, favoritesProvider, child) {
-                        final isFavorite = favoritesProvider.isFavorite(pets[index]);
+                        final isFavorite = favoritesProvider.isFavorite(
+                          pets[index],
+                        );
                         return IconButton(
                           icon: Icon(
-                            size: 30,
                             isFavorite ? Icons.favorite : Icons.favorite_border,
+                            size: 30,
                             color: isFavorite ? Colors.red : appPinkColor,
                           ),
                           onPressed: () {
@@ -61,6 +76,15 @@ class Homepage extends StatelessWidget {
               );
             },
           );
+        },
+      ),
+
+      // Botão de adicionar no canto inferior direito
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: appPinkColor,
+        child: const Icon(Icons.add, size: 28),
+        onPressed: () {
+          Navigator.pushNamed(context, '/adicionarPet');
         },
       ),
     );

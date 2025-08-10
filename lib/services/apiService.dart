@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:unimar_sab_19/interfaces/httpNativeInterface.dart';
+import 'package:unimar_sab_19/models/adicionarPetPetAdoptRequest.dart';
 import 'package:unimar_sab_19/models/cadastroPetAdoptRequest.dart';
 import 'package:unimar_sab_19/models/loginPetAdoptRequest.dart';
 import 'package:unimar_sab_19/services/httpNative.dart';
@@ -57,6 +58,26 @@ class ApiService {
     LoginPetAdoptRequest request = LoginPetAdoptRequest(
       email: EmailAddress(email),
       password: Password(password),
+    );
+
+    String body = request.toJsonString();
+
+    return httpService.fetchPost(url, body);
+  }
+
+  Future<Map<String, dynamic>> sendAdicionarPet(
+    String nome,
+    String peso,
+    String cor,
+    int idade,
+  ) {
+    String url = "https://petadopt.onrender.com/pet/create";
+
+    AdicionarPetPetAdoptRequest request = AdicionarPetPetAdoptRequest(
+      nome: nome,
+      peso: peso,
+      cor: cor,
+      idade: idade,
     );
 
     String body = request.toJsonString();

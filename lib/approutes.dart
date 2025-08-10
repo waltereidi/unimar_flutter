@@ -12,4 +12,5 @@ class Approutes {
   static const String detalhes = '/detalhes';
   static const String perfil = '/perfil';
   static const String configuracoes = '/configuracoes';
+  static const String adicionarPet = '/adicionarPet';
 }
