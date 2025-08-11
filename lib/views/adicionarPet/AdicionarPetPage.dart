@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:unimar_sab_19/services/apiService.dart';
 
 class AdicionarPetPage extends StatefulWidget {
@@ -42,10 +43,23 @@ class _AdicionarPetPageState extends State<AdicionarPetPage> {
         const SnackBar(content: Text('Pet adicionado com sucesso!')),
       );
       Navigator.pop(context);
+    } else if (response['error'] != null && response['error'].toString().contains('conexão')) {
+      // Tratamento específico para erro de conexão
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Erro de conexão: Verifique sua conexão com a internet'),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 5),
+        ),
+      );
     } else {
+      // Outros erros
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('Erro: ${response['message']}')));
+      ).showSnackBar(SnackBar(
+        content: Text('Erro: ${response['message'] ?? response['error'] ?? "Erro desconhecido"}'),
+        backgroundColor: Colors.orange,
+      ));
     }
   }
 
@@ -55,6 +69,7 @@ class _AdicionarPetPageState extends State<AdicionarPetPage> {
     required IconData icon,
     required TextEditingController controller,
     TextInputType keyboardType = TextInputType.text,
+    List<TextInputFormatter>? inputFormatters,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,6 +78,7 @@ class _AdicionarPetPageState extends State<AdicionarPetPage> {
         TextField(
           controller: controller,
           keyboardType: keyboardType,
+          inputFormatters: inputFormatters,
           decoration: InputDecoration(
             prefixIcon: Icon(icon),
             enabledBorder: OutlineInputBorder(
@@ -150,6 +166,7 @@ class _AdicionarPetPageState extends State<AdicionarPetPage> {
                       icon: Icons.cake,
                       controller: _controllerIdade,
                       keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     ),
                   ],
                 ),

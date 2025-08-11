@@ -124,19 +124,50 @@ class _LoginPageState extends State<LoginPage> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () async {
-                  var storage = LocalStorageService();
-                  var user = await storage.loadData('user');
-                  var password = await storage.loadData('password');
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Realizando login...')),
+                  );
+                  
+                  ApiService apiService = ApiService.getService();
+                  var response = await apiService.sendLogin(
+                    _controllerEmail.text,
+                    _controllerSenha.text,
+                  );
 
-                  if (user == _controllerEmail.text &&
-                      password == _controllerSenha.text) {
+                  if (response['token'] != null &&
+                      response['token'].toString().isNotEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Login realizado com sucesso!')),
+                      const SnackBar(content: Text('Login realizado com sucesso!')),
                     );
+                    LocalStorageService storage = LocalStorageService();
+                    await storage.saveData('token', response['token']);
+
                     Navigator.pushReplacementNamed(context, Approutes.home);
-                  } else {
+                  } else if (response['error'] != null && response['error'].toString().contains('conexão')) {
+                    // Tratamento específico para erro de conexão
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Login ou senha inválidos!')),
+                      const SnackBar(
+                        content: Text('Erro de conexão: Verifique sua conexão com a internet'),
+                        backgroundColor: Colors.red,
+                        duration: Duration(seconds: 5),
+                      ),
+                    );
+                  } else if (response['error'] != null && response['error'].toString().contains('Tempo limite')) {
+                    // Tratamento específico para timeout
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('O servidor está demorando para responder. Tente novamente mais tarde.'),
+                        backgroundColor: Colors.orange,
+                        duration: Duration(seconds: 5),
+                      ),
+                    );
+                  } else {
+                    // Outros erros, incluindo credenciais inválidas
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Erro: ${response['message'] ?? response['error'] ?? "Login ou senha inválidos!"}'),
+                        backgroundColor: Colors.orange,
+                      ),
                     );
                   }
                 },

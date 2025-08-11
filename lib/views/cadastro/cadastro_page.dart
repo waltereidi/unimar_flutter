@@ -292,9 +292,9 @@ class _CadastroPageState extends State<CadastroPage> {
   }
 
   void sendCadastroRequest() async {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text('Solicitação de cadastro enviada!')));
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Enviando solicitação de cadastro...')),
+    );
 
     var service = ApiService.getService();
 
@@ -306,12 +306,6 @@ class _CadastroPageState extends State<CadastroPage> {
       Password(_controllerConfirmPassword.text),
     );
 
-    print("Response: $response");
-
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text('enviado!')));
-
     var dto = CadastroPetAdoptResponse.fromJson(response);
 
     if (dto.token != null) {
@@ -321,13 +315,35 @@ class _CadastroPageState extends State<CadastroPage> {
       storage.saveData('password', _controllerSenha.text);
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Cadastro realizado com sucesso!')),
+        const SnackBar(content: Text('Cadastro realizado com sucesso!')),
       );
 
       Navigator.pop(context);
-    } else {
+    } else if (response['error'] != null && response['error'].toString().contains('conexão')) {
+      // Tratamento específico para erro de conexão
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erro ao cadastrar: ${response['message']}')),
+        const SnackBar(
+          content: Text('Erro de conexão: Verifique sua conexão com a internet'),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 5),
+        ),
+      );
+    } else if (response['error'] != null && response['error'].toString().contains('Tempo limite')) {
+      // Tratamento específico para timeout
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('O servidor está demorando para responder. Tente novamente mais tarde.'),
+          backgroundColor: Colors.orange,
+          duration: Duration(seconds: 5),
+        ),
+      );
+    } else {
+      // Outros erros
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro ao cadastrar: ${response['message'] ?? response['error'] ?? "Erro desconhecido"}'),
+          backgroundColor: Colors.orange,
+        ),
       );
     }
   }

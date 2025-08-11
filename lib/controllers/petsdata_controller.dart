@@ -10,22 +10,40 @@ class PetsdataController {
 
   Future<List<UserResponse>> fetchUserData() async {
     final data = await httpService.getAllData('user'); //Não existe!
+    
+    // Verificar se houve erro na requisição
+    if (data['success'] == false) {
+      print('Erro ao buscar dados de usuários: ${data['error']}');
+      return [];
+    }
+    
     final List<UserResponse> users = [];
 
-    data['results'].forEach((user) {
-      users.add(
-        UserResponse.fromJson(user),
-      ); // Debugging line to check the fetched data
-    });
-    // Debugging line to check the fetched data
+    if (data['results'] != null) {
+      data['results'].forEach((user) {
+        users.add(
+          UserResponse.fromJson(user),
+        );
+      });
+    }
     return users;
   }
 
-  Future<Pets> getAllPets() async {
+  Future<Pets?> getAllPets() async {
     final petsData = await httpService.getAllData('pet/pets');
-
-    Pets pets = Pets.fromJson(petsData);
-    // Debugging line to check the fetched data
-    return pets;
+    
+    // Verificar se houve erro na requisição
+    if (petsData['success'] == false) {
+      print('Erro ao buscar dados de pets: ${petsData['error']}');
+      return null;
+    }
+    
+    try {
+      Pets pets = Pets.fromJson(petsData);
+      return pets;
+    } catch (e) {
+      print('Erro ao converter dados de pets: $e');
+      return null;
+    }
   }
 }

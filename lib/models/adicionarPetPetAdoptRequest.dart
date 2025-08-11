@@ -1,20 +1,20 @@
 import 'dart:convert';
 
 class AdicionarPetPetAdoptRequest {
-  final String nome;
-  final String peso;
-  final String cor;
-  final int idade;
+  final String name;
+  final String weight;
+  final String color;
+  final int age;
 
   AdicionarPetPetAdoptRequest({
-    required this.nome,
-    required this.peso,
-    required this.cor,
-    required this.idade,
+    required this.name,
+    required this.weight,
+    required this.color,
+    required this.age,
   });
 
   String toJsonString() {
-    final data = {'nome': nome, 'peso': peso, 'cor': cor, 'idade': idade};
+    final data = {'name': name, 'weight': weight, 'color': color, 'age': age};
 
     return jsonEncode(data);
   }

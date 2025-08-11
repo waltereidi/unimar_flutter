@@ -5,11 +5,16 @@ import 'package:unimar_sab_19/models/adicionarPetPetAdoptRequest.dart';
 import 'package:unimar_sab_19/models/cadastroPetAdoptRequest.dart';
 import 'package:unimar_sab_19/models/loginPetAdoptRequest.dart';
 import 'package:unimar_sab_19/services/httpNative.dart';
+import 'package:unimar_sab_19/services/localStorageService.dart';
 import 'package:unimar_sab_19/valueObject/emailAddress.dart';
 import 'package:unimar_sab_19/valueObject/password.dart';
 
 class ApiService {
   final HttpNativeInterface httpService;
+  Map<String, String> defaultHeaders = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+  };
 
   ApiService._(this.httpService);
 
@@ -17,6 +22,11 @@ class ApiService {
     var client = HttpClient();
     var httpService = HttpNative(client: client);
     return ApiService._(httpService);
+  }
+  
+  // Método para atualizar os headers padrão
+  void updateDefaultHeaders(Map<String, String> newHeaders) {
+    defaultHeaders.addAll(newHeaders);
   }
 
   Future<Map<String, dynamic>> sendCadastro(
@@ -36,7 +46,7 @@ class ApiService {
     );
 
     String body = request.toJsonString();
-    return httpService.fetchPost(url, body);
+    return httpService.fetchPost(url, body, headers: defaultHeaders);
   }
 
   Future<Map<String, dynamic>> sendLogin(String email, String password) {
@@ -49,7 +59,7 @@ class ApiService {
 
     String body = request.toJsonString();
 
-    return httpService.fetchPost(url, body);
+    return httpService.fetchPost(url, body, headers: defaultHeaders);
   }
 
   Future<Map<String, dynamic>> sendCreate(String email, String password) {
@@ -62,7 +72,7 @@ class ApiService {
 
     String body = request.toJsonString();
 
-    return httpService.fetchPost(url, body);
+    return httpService.fetchPost(url, body, headers: defaultHeaders);
   }
 
   Future<Map<String, dynamic>> sendAdicionarPet(
@@ -70,18 +80,24 @@ class ApiService {
     String peso,
     String cor,
     int idade,
-  ) {
+  ) async {
     String url = "https://petadopt.onrender.com/pet/create";
 
     AdicionarPetPetAdoptRequest request = AdicionarPetPetAdoptRequest(
-      nome: nome,
-      peso: peso,
-      cor: cor,
-      idade: idade,
+      name: nome,
+      weight: peso,
+      color: cor,
+      age: idade,
     );
+    LocalStorageService localStorageService = LocalStorageService();
+    String token = await localStorageService.loadData("token");
 
     String body = request.toJsonString();
 
-    return httpService.fetchPost(url, body);
+    // Criar uma cópia dos headers padrão e adicionar o token de autorização
+    Map<String, String> requestHeaders = Map.from(defaultHeaders);
+    requestHeaders['Authorization'] = 'Bearer $token';
+
+    return httpService.fetchPost(url, body, headers: requestHeaders);
   }
 }

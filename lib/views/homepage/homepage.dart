@@ -11,7 +11,7 @@ class Homepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<Pets>(
+      body: FutureBuilder<Pets?>(
         future: PetsdataController().getAllPets(),
         builder: (context, asyncSnapshot) {
           if (asyncSnapshot.connectionState == ConnectionState.waiting) {
@@ -20,7 +20,63 @@ class Homepage extends StatelessWidget {
 
           if (asyncSnapshot.hasError) {
             return Center(
-              child: Text('Erro ao carregar pets: ${asyncSnapshot.error}'),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Erro ao carregar pets: ${asyncSnapshot.error}',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Força a reconstrução do widget para tentar novamente
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Homepage()),
+                      );
+                    },
+                    child: const Text('Tentar novamente'),
+                  ),
+                ],
+              ),
+            );
+          }
+          
+          // Verificar se o retorno é nulo (pode acontecer em caso de erro de conexão)
+          if (asyncSnapshot.data == null) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.wifi_off, size: 48, color: Colors.orange),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Erro de conexão',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    'Não foi possível conectar ao servidor. Verifique sua conexão com a internet.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Força a reconstrução do widget para tentar novamente
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Homepage()),
+                      );
+                    },
+                    child: const Text('Tentar novamente'),
+                  ),
+                ],
+              ),
             );
           }
 
