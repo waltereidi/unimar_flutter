@@ -38,28 +38,33 @@ class _AdicionarPetPageState extends State<AdicionarPetPage> {
       int.tryParse(_controllerIdade.text) ?? 0,
     );
 
-    if (response['success'] == true) {
+    if (response['message'].toString().contains("sucesso")) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Pet adicionado com sucesso!')),
       );
       Navigator.pop(context);
-    } else if (response['error'] != null && response['error'].toString().contains('conexão')) {
+    } else if (response['error'] != null &&
+        response['error'].toString().contains('conexão')) {
       // Tratamento específico para erro de conexão
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Erro de conexão: Verifique sua conexão com a internet'),
+          content: Text(
+            'Erro de conexão: Verifique sua conexão com a internet',
+          ),
           backgroundColor: Colors.red,
           duration: Duration(seconds: 5),
         ),
       );
     } else {
       // Outros erros
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(
-        content: Text('Erro: ${response['message'] ?? response['error'] ?? "Erro desconhecido"}'),
-        backgroundColor: Colors.orange,
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Erro: ${response['message'] ?? response['error'] ?? "Erro desconhecido"}',
+          ),
+          backgroundColor: Colors.orange,
+        ),
+      );
     }
   }
 

@@ -127,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Realizando login...')),
                   );
-                  
+
                   ApiService apiService = ApiService.getService();
                   var response = await apiService.sendLogin(
                     _controllerEmail.text,
@@ -137,26 +137,34 @@ class _LoginPageState extends State<LoginPage> {
                   if (response['token'] != null &&
                       response['token'].toString().isNotEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Login realizado com sucesso!')),
+                      const SnackBar(
+                        content: Text('Login realizado com sucesso!'),
+                      ),
                     );
                     LocalStorageService storage = LocalStorageService();
                     await storage.saveData('token', response['token']);
 
                     Navigator.pushReplacementNamed(context, Approutes.home);
-                  } else if (response['error'] != null && response['error'].toString().contains('conexão')) {
+                  } else if (response['error'] != null &&
+                      response['error'].toString().contains('conexão')) {
                     // Tratamento específico para erro de conexão
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text('Erro de conexão: Verifique sua conexão com a internet'),
+                        content: Text(
+                          'Erro de conexão: Verifique sua conexão com a internet',
+                        ),
                         backgroundColor: Colors.red,
                         duration: Duration(seconds: 5),
                       ),
                     );
-                  } else if (response['error'] != null && response['error'].toString().contains('Tempo limite')) {
+                  } else if (response['error'] != null &&
+                      response['error'].toString().contains('Tempo limite')) {
                     // Tratamento específico para timeout
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text('O servidor está demorando para responder. Tente novamente mais tarde.'),
+                        content: Text(
+                          'O servidor está demorando para responder. Tente novamente mais tarde.',
+                        ),
                         backgroundColor: Colors.orange,
                         duration: Duration(seconds: 5),
                       ),
@@ -165,7 +173,9 @@ class _LoginPageState extends State<LoginPage> {
                     // Outros erros, incluindo credenciais inválidas
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Erro: ${response['message'] ?? response['error'] ?? "Login ou senha inválidos!"}'),
+                        content: Text(
+                          'Erro: ${response['message'] ?? response['error'] ?? "Login ou senha inválidos!"}',
+                        ),
                         backgroundColor: Colors.orange,
                       ),
                     );
@@ -205,11 +215,7 @@ class _LoginPageState extends State<LoginPage> {
                 Text("Não tem uma conta?"),
                 TextButton(
                   onPressed: () {
-                    sendLoginRequest(
-                      context,
-                      _controllerEmail.text,
-                      _controllerSenha.text,
-                    );
+                    Navigator.pushReplacementNamed(context, Approutes.cadastro);
                   },
                   child: Text("Cadastre-se"),
                 ),

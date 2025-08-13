@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:unimar_sab_19/approutes.dart';
 import 'package:unimar_sab_19/models/cadastroPetAdoptResponse.dart';
 import 'package:unimar_sab_19/services/apiService.dart';
 import 'package:unimar_sab_19/services/localStorageService.dart';
@@ -318,21 +319,27 @@ class _CadastroPageState extends State<CadastroPage> {
         const SnackBar(content: Text('Cadastro realizado com sucesso!')),
       );
 
-      Navigator.pop(context);
-    } else if (response['error'] != null && response['error'].toString().contains('conexão')) {
+      Navigator.pushReplacementNamed(context, Approutes.login);
+    } else if (response['error'] != null &&
+        response['error'].toString().contains('conexão')) {
       // Tratamento específico para erro de conexão
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Erro de conexão: Verifique sua conexão com a internet'),
+          content: Text(
+            'Erro de conexão: Verifique sua conexão com a internet',
+          ),
           backgroundColor: Colors.red,
           duration: Duration(seconds: 5),
         ),
       );
-    } else if (response['error'] != null && response['error'].toString().contains('Tempo limite')) {
+    } else if (response['error'] != null &&
+        response['error'].toString().contains('Tempo limite')) {
       // Tratamento específico para timeout
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('O servidor está demorando para responder. Tente novamente mais tarde.'),
+          content: Text(
+            'O servidor está demorando para responder. Tente novamente mais tarde.',
+          ),
           backgroundColor: Colors.orange,
           duration: Duration(seconds: 5),
         ),
@@ -341,7 +348,9 @@ class _CadastroPageState extends State<CadastroPage> {
       // Outros erros
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Erro ao cadastrar: ${response['message'] ?? response['error'] ?? "Erro desconhecido"}'),
+          content: Text(
+            'Erro ao cadastrar: ${response['message'] ?? response['error'] ?? "Erro desconhecido"}',
+          ),
           backgroundColor: Colors.orange,
         ),
       );
